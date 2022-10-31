@@ -5,13 +5,13 @@ void ConfigUART(unsigned int bard);
 unsigned char RECEIVE_SIGNATL = 0;
 unsigned char IS_SIGNAL_RECEIVED = 0;
 
-unsigned char *ARRAY_PTR = 0;
-unsigned char ARRAY_LEN = 0;
+unsigned char *BUFFER_PTR = 0;
+unsigned char BUFFER_LEN = 0;
 
-unsigned char array1[] = {1,2};
-unsigned char array2[] = {1,2,3,4};
-unsigned char array3[] = {1,2,3,4,5,6};
-unsigned char array4[] = {1,2,3,4,5,6,7,8};
+unsigned char buffer1[] = {1,2};
+unsigned char buffer2[] = {1,2,3,4};
+unsigned char buffer3[] = {1,2,3,4,5,6};
+unsigned char buffer4[] = {1,2,3,4,5,6,7,8};
 
 void main() {
 	EA = 1;
@@ -22,25 +22,25 @@ void main() {
 			IS_SIGNAL_RECEIVED = 0;
 			switch (RECEIVE_SIGNATL) {
 				case 1:
-					ARRAY_PTR = array1;
-					ARRAY_LEN = sizeof(array1);	 
+					BUFFER_PTR = buffer1;
+					BUFFER_LEN = sizeof(buffer1);	 
 					// software enable TI interrupt, 
 					// will enter interrupt func immediately
 					TI = 1;  
 					break;
 				case 2:		
-					ARRAY_PTR = array2;
-					ARRAY_LEN = sizeof(array2);	 
+					BUFFER_PTR = buffer2;
+					BUFFER_LEN = sizeof(buffer2);	 
 					TI = 1;   
 					break;
 				case 3:		 
-					ARRAY_PTR = array3;
-					ARRAY_LEN = sizeof(array3);	 
+					BUFFER_PTR = buffer3;
+					BUFFER_LEN = sizeof(buffer3);	 
 					TI = 1;   
 					break;
 				case 4:		 
-					ARRAY_PTR = array4;
-					ARRAY_LEN = sizeof(array4);	 
+					BUFFER_PTR = buffer4;
+					BUFFER_LEN = sizeof(buffer4);	 
 					TI = 1;   
 					break;
 				default:
@@ -72,10 +72,10 @@ void InterruptUART() interrupt 4 {
 	}
 	if (TI) { // Transmission
 		TI = 0;
-		if (ARRAY_LEN) {
-			ARRAY_LEN--;
-			SBUF = *ARRAY_PTR;
-			ARRAY_PTR++;
+		if (BUFFER_LEN) {
+			BUFFER_LEN--;
+			SBUF = *BUFFER_PTR;
+			BUFFER_PTR++;
 		}
 	}
 }
